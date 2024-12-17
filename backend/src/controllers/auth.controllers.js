@@ -108,7 +108,6 @@ export const logout=(req,res)=>{
         return res.status(200).json({ 
             success:true,
             message:"User Logged Out Successfully",
-            user
         });
     }
     catch(error){
@@ -151,6 +150,7 @@ export const updateProfile=async(req,res)=>{
 
 export const checkAuth=(req,res)=>{
     try{
+        console.log("User",req.user);
         res.status(200).json(req.user);
     }
     catch(error){
