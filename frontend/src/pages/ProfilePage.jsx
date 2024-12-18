@@ -1,23 +1,24 @@
-import React from "react";
+import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Camera, Mail, User } from "lucide-react";
 
 const ProfilePage = () => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
-  const [selectedImg, setSelectedImg] = React.useState(null);
+  const [selectedImg, setSelectedImg] = useState(null);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if(!file) return;
-    const reader=new FileReader();
+    if (!file) return;
+
+    const reader = new FileReader();
 
     reader.readAsDataURL(file);
-    reader.onload=async()=>{
-      const base64Image=reader.result;
-      setSelectedImg(base64Image);
-      await updateProfile({profilePic:base64Image});
-    }
 
+    reader.onload = async () => {
+      const base64Image = reader.result;
+      setSelectedImg(base64Image);
+      await updateProfile({ profilePic: base64Image });
+    };
   };
 
   return (
@@ -60,9 +61,7 @@ const ProfilePage = () => {
               </label>
             </div>
             <p className="text-sm text-zinc-400">
-              {isUpdatingProfile
-                ? "Uploading..."
-                : "Click the camera icon to update your photo"}
+              {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your photo"}
             </p>
           </div>
 
@@ -72,9 +71,7 @@ const ProfilePage = () => {
                 <User className="w-4 h-4" />
                 Full Name
               </div>
-              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">
-                {authUser?.fullName}
-              </p>
+              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.fullName}</p>
             </div>
 
             <div className="space-y-1.5">
@@ -82,9 +79,7 @@ const ProfilePage = () => {
                 <Mail className="w-4 h-4" />
                 Email Address
               </div>
-              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">
-                {authUser?.email}
-              </p>
+              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.email}</p>
             </div>
           </div>
 
@@ -106,5 +101,4 @@ const ProfilePage = () => {
     </div>
   );
 };
-
 export default ProfilePage;
